@@ -1,0 +1,20 @@
+
+	Pairwise comparisons using t tests with pooled SD 
+
+data:  runners_anova_df$k5_ti_adj and runners_anova_df$bmi_category 
+
+  1       2      
+2 1       -      
+3 6.2e-12 5.7e-11
+
+P value adjustment method: bonferroni 
+
+	Pairwise comparisons using t tests with pooled SD 
+
+data:  runners_anova_df$k5_ti_adj and runners_anova_df$bmi_category 
+
+  1       2      
+2 0.72    -      
+3 6.2e-12 2.9e-11
+
+P value adjustment method: BH 
