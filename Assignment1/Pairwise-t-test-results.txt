@@ -5,7 +5,7 @@ data:  runners_anova_df$k5_ti_adj and runners_anova_df$bmi_category
 
   1       2      
 2 1       -      
-3 6.2e-12 5.7e-11
+3 3.6e-08 1.6e-06
 
 P value adjustment method: bonferroni 
 
@@ -14,7 +14,7 @@ P value adjustment method: bonferroni
 data:  runners_anova_df$k5_ti_adj and runners_anova_df$bmi_category 
 
   1       2      
-2 0.72    -      
-3 6.2e-12 2.9e-11
+2 0.46    -      
+3 3.6e-08 8.2e-07
 
 P value adjustment method: BH 

@@ -1,0 +1,20 @@
+
+Call:
+lm(formula = runners_df_clean$bmi ~ runners_df_clean$k5_ti_adj, 
+    data = runners_df_clean)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-7.0810 -1.8075 -0.1726  1.6008 21.6417 
+
+Coefficients:
+                            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)                1.738e+01  3.580e-01   48.55   <2e-16 ***
+runners_df_clean$k5_ti_adj 4.636e-03  2.495e-04   18.58   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 2.876 on 1287 degrees of freedom
+Multiple R-squared:  0.2115,	Adjusted R-squared:  0.2109 
+F-statistic: 345.3 on 1 and 1287 DF,  p-value: < 2.2e-16
+

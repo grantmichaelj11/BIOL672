@@ -1,0 +1,15 @@
+
+	Kruskal-Wallis rank sum test
+
+data:  runners_anova_df$k5_ti_adj by runners_anova_df$bmi_category
+Kruskal-Wallis chi-squared = 38.575, df = 2, p-value = 4.203e-09
+
+[1] "Pearson Correlation:  0.459942283613881"
+[1] "Spearman Correlation:  0.365811193737369"
+
+	One-sample Kolmogorov-Smirnov test
+
+data:  runner_times
+D = 0.081176, p-value = 8.117e-06
+alternative hypothesis: two-sided
+

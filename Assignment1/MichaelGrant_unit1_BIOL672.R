@@ -1,11 +1,12 @@
 #Michael Grant
 #Operating System: Windows 10/11
-#Packages/Libraries: ggplot2, dplyr, ggpubr
+#Packages/Libraries: ggplot2, dplyr, ggpubr, dgof
 #Data Files: "RunnerData.csv"
 
 library(ggplot2)
 library(ggpubr)
 library(dplyr)
+library(dgof)
 
 setwd("C:/Users/Grant/OneDrive/Homework/Fall 2023/BIOL672/Assignment1")
 
@@ -204,6 +205,122 @@ sink()
 
 ########################  End discussion  ########################
 
+#Perfrom Kruskal Wallis Test
+#1) Rank all dependent variables, regardless of group
+#2) Assemble these variables back into their groups, where their ranks from the
+#   overall rankings remain
+#)  Critical Value of chi^2 given our DOF and probability of 0.05: 5.99
+
+kruskal_wallis_test <- kruskal.test(runners_anova_df$k5_ti_adj ~ runners_anova_df$bmi_category)
+#H = 35 > 5.99, therefore we reject the null hypothesis, and the medians of the groups
+#are not all the same, and some groups do not come from the same distribution.
+
+
+#Conduct Pearson and Spearman Correlations
+
+#Pearson correlation assumes the data have a monotonic linear relationship and
+#that the data is normally distributed.
+correlation_pearson <- cor(runners_df_clean$bmi,
+                          runners_df_clean$k5_ti_adj,
+                          method='pearson')
+
+#Spearman correlation is a non-parametric test that does not assume a specific type
+#of distribution for the data and can capture non-linear data.
+correlation_spearman <- cor(runners_df_clean$bmi,
+                           runners_df_clean$k5_ti_adj,
+                           method='spearman')
+
+#The Pearson and Spearman correlation give values of 0.46 and 0.37 respectively, 
+#indicating some correlation between BMI and 5K times. With the Pearson correlation
+#being higher it lends one to believe the data might have some sense of a normal
+#distribution. Both are positive indicating that an increase in BMI is associated
+#with slower 5K times. Yet, our Kruskal-Wallis test indicates that some groups are
+#not associated with the same distribution which come from higher BMIs, Which create
+#outliers in our distribution as we can see in the histogram "Runner Times" where
+#the distribution is positively skewed skewed 
+
+runner_times = unique(runners_df_clean$k5_ti_adj)
+#Null Hypothesis that the data comes from a normal distribution
+#Critical Value to compare D to: alpha = 0.05 N >> 35: 1.36/sqrt(N) = 0.044
+ks_test = ks.test(runner_times, 'pnorm', mean=mean(runner_times), sd=sd(runner_times))
+sink('correlation_test_results.txt')
+print(kruskal_wallis_test)
+print(paste('Pearson Correlation: ', correlation_pearson))
+print(paste('Spearman Correlation: ', correlation_spearman))
+print(ks_test)
+sink()
+#THE KS test returned a statistic of 0.081 and a p-value of ~8.1e-6. The statistic
+#value of 0.081 > 0.044 and with our extremely low p-value we can say with confidence
+#that our data is normally distributed, which lends insight into as why our
+#Pearson Correlation was slightly stronger than our Spearman Correlation.
+
+#All tests seem to agree with one another that BMI is in fact correlated with 
+#runner's 5K times. The successful KS test with a 0.46 Pearson correlation indicate
+#that increasing BMI increases 5K times and the data is normally distributed.
+
+runners_correlation = ggplot(runners_df_clean, aes(x = runners_df_clean$bmi,
+                             y = runners_df_clean$k5_ti_adj))+
+                        geom_point(shape=19, color='blue') +
+                        labs(
+                          title='BMI vs 5K Time',
+                          x = "BMI",
+                          y = "5K Time (seconds)"
+                        ) + 
+                        geom_text(
+                          x = min(runners_df_clean$bmi),
+                          y = max(runners_df_clean$k5_ti_adj),
+                          label = paste("Pearson Correlation =", round(correlation_pearson,2)),
+                          hjust = 0,
+                          vjust = 1
+                        ) +
+                        geom_text(
+                          x = min(runners_df_clean$bmi),
+                          y = max(runners_df_clean$k5_ti_adj),
+                          label = paste("Spearman Correlation =", round(correlation_spearman,2)),
+                          hjust = 0,
+                          vjust = 2
+                        )
+
+runners_histo = ggplot(data = NULL, aes(x = runner_times))+
+                  geom_histogram(binwidth=50, fill="blue", color='black')+
+                  labs(title = "Runner Times", x = 'K5 Time (Adjusted)', y='Freq')
+
+
+ggsave("Runners_5K_BMI_Correlations.pdf", plot=runners_correlation)
+ggsave('Runners_5K_Distribution.pdf', plot=runners_histo)
+
+#Run a simple Linear Regression on BMI vs 5K Times
+linear_model <- lm(runners_df_clean$bmi ~ runners_df_clean$k5_ti_adj, data=runners_df_clean)
+linear_model_summary <- summary(linear_model)
+
+#Save the model summary
+sink('linear_model_BMI_5K.txt')
+print(linear_model_summary)
+sink()
+
+runners_regression = ggplot(runners_df_clean, aes(x = runners_df_clean$bmi,
+                                                  y = runners_df_clean$k5_ti_adj))+
+  geom_point(shape=19, color='blue') +
+  labs(
+    title='BMI vs 5K Time',
+    x = "BMI",
+    y = "5K Time (seconds)"
+  ) + 
+  geom_text(
+    x = min(runners_df_clean$bmi),
+    y = max(runners_df_clean$k5_ti_adj),
+    label = paste("R^2 =", round(linear_model_summary$r.squared, 2)),
+    hjust = 0,
+    vjust = 1
+  )
+
+ggsave('Runners_5k_BMI_Regression.pdf', plot=runners_regression)
+
+#The R-squared is much lower than the correlation results. From this relationship
+#we can say that roughly 21% of the explaination of increased 5K times come from
+#BMI. We would want to use regression when we want to make a prediction or forecast
+#some future event, whereas if we are solely interested in the strength and direction
+#of correlation we should use other correlation based tests.
 
 
 
