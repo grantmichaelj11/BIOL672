@@ -2,5 +2,5 @@
 	One-way analysis of means (not assuming equal variances)
 
 data:  runners_anova_df$k5_ti_adj and runners_anova_df$bmi_category
-F = 19.87, num df = 2.00, denom df = 197.87, p-value = 1.368e-08
+F = 23.92, num df = 2.00, denom df = 194.85, p-value = 5.132e-10
 

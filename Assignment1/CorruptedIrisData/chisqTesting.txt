@@ -1,0 +1,6 @@
+
+	Pearson's Chi-squared test
+
+data:  iris_purchased_data$likelytobuy and iris_purchased_data$sold
+X-squared = 0.83362, df = 1, p-value = 0.3612
+

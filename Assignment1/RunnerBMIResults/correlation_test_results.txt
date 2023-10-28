@@ -2,7 +2,7 @@
 	Kruskal-Wallis rank sum test
 
 data:  runners_anova_df$k5_ti_adj by runners_anova_df$bmi_category
-Kruskal-Wallis chi-squared = 38.575, df = 2, p-value = 4.203e-09
+Kruskal-Wallis chi-squared = 50.044, df = 2, p-value = 1.359e-11
 
 [1] "Pearson Correlation:  0.459942283613881"
 [1] "Spearman Correlation:  0.365811193737369"

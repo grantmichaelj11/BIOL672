@@ -1,7 +1,7 @@
 #Michael Grant
 #Operating System: Windows 10/11
 #Packages/Libraries: ggplot2, dplyr, ggpubr, dgof
-#Data Files: "RunnerData.csv"
+#Data Files: "input_data/RunnerData.csv"
 
 library(ggplot2)
 library(ggpubr)
@@ -55,14 +55,14 @@ output <- character(0)
 output <- c(output, sprintf("Sample Mean: %f", distribution_mean))
 output <- c(output, sprintf("Sample Standard Deviation: %f", distribution_std))
 
-invisible(sink("desc.txt"))
+invisible(sink("RunnerBMIResults/desc.txt"))
 
 cat(output, sep="\n")
 
 sink()
 
 #Create a PDF of the generated plot 
-ggsave("histo.pdf", plot=histogram_poisson_distribution)
+ggsave("RunnerBMIResults/histo.pdf", plot=histogram_poisson_distribution)
 
 #Load in the csv for the One-way ANOVA - I will be testing three groups of runners
 #data. Each subgroup will be within a specific BMI range, and the null hypothesis
@@ -70,7 +70,7 @@ ggsave("histo.pdf", plot=histogram_poisson_distribution)
 #the same.
 
 #Reads in csv file and saves as a dataframe
-runners_df <- read.csv("RunnerData.csv")
+runners_df <- read.csv("input_data/RunnerData.csv")
 
 #Creates new dataframe containing only the columns we are concerned with and then
 #deletes all rows that have values of "NA"
@@ -96,7 +96,7 @@ runners_anova_df <- na.omit(runners_anova_df)
 anova_test <- oneway.test(runners_anova_df$k5_ti_adj ~ runners_anova_df$bmi_category)
 
 #Print the resutls to text file
-sink('ANOVA_RESULTS.txt')
+sink('RunnerBMIResults/ANOVA_RESULTS.txt')
 print(anova_test)
 sink()
 
@@ -132,7 +132,7 @@ box_plot = ggboxplot(runners_anova_df, x="bmi_category", y="k5_ti_adj",
   labs(color="BMI Category")
 
 #Save plot to output
-ggsave("boxplot_runners_5k_BMI.pdf", plot=box_plot)
+ggsave("RunnerBMIResults/boxplot_runners_5k_BMI.pdf", plot=box_plot)
 
 
 pairwise_t_test_bonferroni <- pairwise.t.test(runners_anova_df$k5_ti_adj, 
@@ -144,7 +144,7 @@ pairwise_t_test_BH <- pairwise.t.test(runners_anova_df$k5_ti_adj,
                                    p.adjust.method = "BH")
 
 #Print the results of the tests to a file.
-sink("Pairwise-t-test-results.txt")
+sink("RunnerBMIResults/Pairwise-t-test-results.txt")
 print(pairwise_t_test_bonferroni)
 print(pairwise_t_test_BH)
 sink()
@@ -243,7 +243,7 @@ runner_times = unique(runners_df_clean$k5_ti_adj)
 #Null Hypothesis that the data comes from a normal distribution
 #Critical Value to compare D to: alpha = 0.05 N >> 35: 1.36/sqrt(N) = 0.044
 ks_test = ks.test(runner_times, 'pnorm', mean=mean(runner_times), sd=sd(runner_times))
-sink('correlation_test_results.txt')
+sink('RunnerBMIResults/correlation_test_results.txt')
 print(kruskal_wallis_test)
 print(paste('Pearson Correlation: ', correlation_pearson))
 print(paste('Spearman Correlation: ', correlation_spearman))
@@ -286,15 +286,15 @@ runners_histo = ggplot(data = NULL, aes(x = runner_times))+
                   labs(title = "Runner Times", x = 'K5 Time (Adjusted)', y='Freq')
 
 
-ggsave("Runners_5K_BMI_Correlations.pdf", plot=runners_correlation)
-ggsave('Runners_5K_Distribution.pdf', plot=runners_histo)
+ggsave("RunnerBMIResults/Runners_5K_BMI_Correlations.pdf", plot=runners_correlation)
+ggsave('RunnerBMIResults/Runners_5K_Distribution.pdf', plot=runners_histo)
 
 #Run a simple Linear Regression on BMI vs 5K Times
 linear_model <- lm(runners_df_clean$bmi ~ runners_df_clean$k5_ti_adj, data=runners_df_clean)
 linear_model_summary <- summary(linear_model)
 
 #Save the model summary
-sink('linear_model_BMI_5K.txt')
+sink('RunnerBMIResults/linear_model_BMI_5K.txt')
 print(linear_model_summary)
 sink()
 
@@ -314,7 +314,7 @@ runners_regression = ggplot(runners_df_clean, aes(x = runners_df_clean$bmi,
     vjust = 1
   )
 
-ggsave('Runners_5k_BMI_Regression.pdf', plot=runners_regression)
+ggsave('RunnerBMIResults/Runners_5k_BMI_Regression.pdf', plot=runners_regression)
 
 #The R-squared is much lower than the correlation results. From this relationship
 #we can say that roughly 21% of the explaination of increased 5K times come from

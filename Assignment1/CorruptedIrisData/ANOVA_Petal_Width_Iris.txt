@@ -1,0 +1,6 @@
+
+	One-way analysis of means (not assuming equal variances)
+
+data:  master_iris_data$petal_width and master_iris_data$dataset
+F = 16.344, num df = 3.00, denom df = 331.09, p-value = 6.279e-10
+

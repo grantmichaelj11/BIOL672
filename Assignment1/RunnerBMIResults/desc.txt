@@ -1,0 +1,2 @@
+Sample Mean: 25.009200
+Sample Standard Deviation: 5.026905

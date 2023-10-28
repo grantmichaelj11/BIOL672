@@ -1,0 +1,6 @@
+
+	One-way analysis of means (not assuming equal variances)
+
+data:  master_iris_data$sepal_width and master_iris_data$dataset
+F = 33.753, num df = 3.00, denom df = 330.42, p-value < 2.2e-16
+

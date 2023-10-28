@@ -1,0 +1,10 @@
+                                                              Df Sum Sq Mean Sq  F value   Pr(>F)    
+boston_housing_price_data$LSTAT                                1  23244   23244 1109.890  < 2e-16 ***
+boston_housing_price_data$RM                                   1   4033    4033  192.578  < 2e-16 ***
+boston_housing_price_data$ZN                                   1     57      57    2.701   0.1009    
+boston_housing_price_data$DIS                                  1    847     847   40.461 4.54e-10 ***
+boston_housing_price_data$LSTAT:boston_housing_price_data$RM   1   4020    4020  191.944  < 2e-16 ***
+boston_housing_price_data$ZN:boston_housing_price_data$DIS     1     65      65    3.117   0.0781 .  
+Residuals                                                    499  10450      21                      
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1

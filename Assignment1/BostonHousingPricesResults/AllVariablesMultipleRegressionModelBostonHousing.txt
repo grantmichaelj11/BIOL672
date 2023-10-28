@@ -1,0 +1,30 @@
+
+Call:
+lm(formula = boston_housing_price_data$MEDV ~ boston_housing_price_data$CRIM + 
+    boston_housing_price_data$NOX + boston_housing_price_data$ZN + 
+    boston_housing_price_data$RM + boston_housing_price_data$DIS + 
+    boston_housing_price_data$B + boston_housing_price_data$PTRATIO + 
+    boston_housing_price_data$LSTAT)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-13.3476  -2.9305  -0.6927   1.7085  27.4903 
+
+Coefficients:
+                                    Estimate Std. Error t value Pr(>|t|)    
+(Intercept)                        29.549705   4.926999   5.998 3.86e-09 ***
+boston_housing_price_data$CRIM     -0.066092   0.030683  -2.154  0.03172 *  
+boston_housing_price_data$NOX     -15.213644   3.258997  -4.668 3.91e-06 ***
+boston_housing_price_data$ZN        0.041267   0.013571   3.041  0.00248 ** 
+boston_housing_price_data$RM        4.217414   0.411775  10.242  < 2e-16 ***
+boston_housing_price_data$DIS      -1.463800   0.190484  -7.685 8.25e-14 ***
+boston_housing_price_data$B         0.008784   0.002715   3.236  0.00129 ** 
+boston_housing_price_data$PTRATIO  -0.875833   0.118163  -7.412 5.39e-13 ***
+boston_housing_price_data$LSTAT    -0.531634   0.048854 -10.882  < 2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 4.887 on 497 degrees of freedom
+Multiple R-squared:  0.7222,	Adjusted R-squared:  0.7177 
+F-statistic: 161.5 on 8 and 497 DF,  p-value: < 2.2e-16
+
