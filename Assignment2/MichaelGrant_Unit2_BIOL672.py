@@ -56,21 +56,22 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVC
+from sklearn.neural_network import MLPClassifier
 
 def main():
     
     df = test_gammas_across_seaons('NBA_gammas.csv', 'MANOVA_NBA_gammas.txt', plot=True)
     
     # Question 1 models
-    knn_model(df, 'KNN_analysis.txt', plot=True)
-    naive_bayes_model(df, 'Naive_Bayes_analysis.txt', plot=True)
-    lda_model(df, 'LDA_analysis.txt', plot=True)
-    qda_model(df, 'QDA_analysis.txt', plot=True)
+    knn_model(df, 'classifier_analysis/KNN_analysis.txt', plot=True)
+    naive_bayes_model(df, 'classifier_analysis/Naive_Bayes_analysis.txt', plot=True)
+    lda_model(df, 'classifier_analysis/LDA_analysis.txt', plot=True)
+    qda_model(df, 'classifier_analysis/QDA_analysis.txt', plot=True)
     
     # Question 2 models
-    linear_svm_model(df, 'Linear_SVM_analysis.txt', plot=True)
-    quadratic_svm_model(df, 'Quadratic_SVM_analysis.txt', plot=True)
-    rbf_svm_model(df, 'RBF_SVM_analysis.txt', plot=True)
+    linear_svm_model(df, 'classifier_analysis/Linear_SVM_analysis.txt', plot=True)
+    quadratic_svm_model(df, 'classifier_analysis/Quadratic_SVM_analysis.txt', plot=True)
+    rbf_svm_model(df, 'classifier_analysis/RBF_SVM_analysis.txt', plot=True)
     
     # Model Analysis for questions 1 and 2
     
@@ -155,7 +156,7 @@ def main():
     # Question 3
     
 
-def test_gammas_across_seaons(dataset, outputfile, plot=True):
+def test_gammas_across_seaons(dataset, outputfile="", plot=True):
     
     # Prior to any data manipulation I want to show that for all 4 seasons that we
     # can combine the data from all 4 seasons into one master dataset, and that 
@@ -173,11 +174,12 @@ def test_gammas_across_seaons(dataset, outputfile, plot=True):
     gammas_MANOVA = MANOVA.from_formula('gamma + opp_gamma ~ season', data=gammas)
     
     #Save output
-    with open(outputfile, 'w') as f:
-        original_stdout = sys.stdout
-        sys.stdout = f
-        print(gammas_MANOVA.mv_test())
-        sys.stdout = original_stdout
+    if outputfile != "":
+        with open(outputfile, 'w') as f:
+            original_stdout = sys.stdout
+            sys.stdout = f
+            print(gammas_MANOVA.mv_test())
+            sys.stdout = original_stdout
         
         
     #Plot boxplot
@@ -189,7 +191,7 @@ def test_gammas_across_seaons(dataset, outputfile, plot=True):
         
         ax.boxplot(gamma_distributions_per_season, labels=[2015,2016,2017,2018], showmeans=True)
         
-        plt.savefig('boxplot_for_MANOVA_analysis.png')
+        plt.savefig('classifier_plots/boxplot_for_MANOVA_analysis.png')
         
         plt.show()
     
@@ -235,7 +237,7 @@ def knn_model(df, outputfile, plot=True):
         plt.ylabel('Home Team Gamma')
         plt.title('K-Nearest Neighbor (n=8)')
         
-        plt.savefig('Scatter_plot_decision_boundary_KNN.png')
+        plt.savefig('classifier_plots/Scatter_plot_decision_boundary_KNN.png')
         
         plt.show()
     
@@ -273,7 +275,7 @@ def naive_bayes_model(df, outputfile, plot=True):
         plt.ylabel('Home Team Gamma')
         plt.title('Gaussian Naive Bayes')
         
-        plt.savefig('Scatter_plot_decision_boundary_naive_bayes.png')
+        plt.savefig('classifier_plots/Scatter_plot_decision_boundary_naive_bayes.png')
         
         plt.show()
 
@@ -311,7 +313,7 @@ def lda_model(df, outputfile, plot=True):
         plt.ylabel('Home Team Gamma')
         plt.title('LDA Classification')
         
-        plt.savefig('Scatter_plot_decision_boundary_LDA.png')
+        plt.savefig('classifier_plots/Scatter_plot_decision_boundary_LDA.png')
         
         plt.show()
 
@@ -350,7 +352,7 @@ def qda_model(df, outputfile, plot=True):
         plt.ylabel('Home Team Gamma')
         plt.title('QDA Classification')
         
-        plt.savefig('Scatter_plot_decision_boundary_QDA.png')
+        plt.savefig('classifier_plots/Scatter_plot_decision_boundary_QDA.png')
         
         plt.show()
     
@@ -395,7 +397,7 @@ def linear_svm_model(df, outputfile, plot=True):
         plt.ylabel('Home Team Gamma')
         plt.title('Linear SVM Classification')
         
-        plt.savefig('Scatter_plot_linear_SVM.png')
+        plt.savefig('classifier_plots/Scatter_plot_linear_SVM.png')
         
         plt.show()
         
@@ -439,7 +441,7 @@ def quadratic_svm_model(df, outputfile, plot=True):
         plt.ylabel('Home Team Gamma')
         plt.title('Quadratic SVM Classification')
         
-        plt.savefig('Scatter_plot_quadratic_SVM.png')
+        plt.savefig('classifier_plots/Scatter_plot_quadratic_SVM.png')
         
         plt.show()
         
@@ -483,12 +485,13 @@ def rbf_svm_model(df, outputfile, plot=True):
         plt.ylabel('Home Team Gamma')
         plt.title('RBF SVM Classification')
         
-        plt.savefig('Scatter_plot_rbg_SVM.png')
+        plt.savefig('classifier_plots/Scatter_plot_rbg_SVM.png')
         
         plt.show()
 
-    
-main()
+
+if __name__ == '__main__':
+    main()
 
 
 
